@@ -3,7 +3,7 @@ import numpy as np
 def valid_solution(board):  # board[i][j]
     newb = np.array(board)
 
-    rows = [newb[x, :] for x in range(9)]
+    # rows = [newb[x, :] for x in range(9)]
     cols = [newb[:, y] for y in range(9)]
     # sqrs = [board[x:x + 3, y:y + 3].flatten() for x in [0, 3, 6] for y in [0, 3, 6]]
 
@@ -12,9 +12,10 @@ def valid_solution(board):  # board[i][j]
         for y in [0, 3, 6]:
             sqrs.append(newb[x:x + 3, y:y + 3].flatten())
 
-    for lines in np.vstack((rows, cols, sqrs)):
+    for lines in np.vstack((board, cols, sqrs)):
         if len(np.unique(lines)) != 9 or 0 in lines:
             return False
+
 
     return True
 

@@ -1,39 +1,56 @@
 import itertools
 
-
-def subset_sum(numbers, target, partial=[], table=[]):
+results = []
+def subset_sum(numbers, target, partial=[]):
     s = sum(partial)
-    z = len(table)
-    if len(table) > 3:
-        for t in range(len(table) - 1):
-            if table[0][0+t] > table[1][0+t]:
-                # print(table[0])
-                return table[0]
-            elif table[0][0+t] < table[1][0+t]:
-                # print(table[0])
-                return table[1]
+    # z = len(table)
+    la = len(results)
+    if la > 1:
+        print(results)
+        print("la ", la)
+        for l in range(min(len(results[la-2]), len(results[la-1]))):
+            print("res all", results)
+            if sum(results[la-2][l:]) > sum(results[la-1][l:]):
+                # results = []
+                # results = results[la-1]
+                results.remove(results[la-2])
+                break
+            else:
+                # results = []
+                # results = results[la - 2]
+                results.remove(results[la-1])
+                break
+            print("res po", results)
 
-        return
+            print("result 2l", l, results[la-2][l:], sum(results[la-2][l:]))
+            print("result 1l", l, results[la-1][l:], sum(results[la-1][l:]))
+
+        return True
     # check if the partial sum is equals to target
     if s == target:
         # if len(table) > 3:
         #     return
-        table.append(partial)
-        print ( "sum(%s)=%s" % (partial, target))
-        # return ( "sum(%s)=%s" % (partial, target))
+        # table.append(partial)
+        # print ( "sum(%s)=%s" % (partial, target))
+        results.append(partial)
+        return partial
     if s >= target:
         return  # if we reach the number why bother to continue
-
+    toRet = bool
     for i in range(len(numbers)):
         n = numbers[i]
         remaining = numbers[i + 1:]
-        subset_sum(remaining, target, partial + [n], table)
+        toRet = subset_sum(remaining, target, partial + [n])
+        if toRet == True: break
+        pass
+        # return toRet
+    return toRet
 
 def decompose(n):
     n1 = n - 1
     n2 = n **2
-
-    print("n, n2", n, n2)
+    results.clear()
+    print("n, n2", n, n2, results)
     temp = []
     list2 = []
     while(n1 >= 1):
@@ -45,14 +62,29 @@ def decompose(n):
         n1 -= 1
 
     newa = subset_sum(list2, n2)
-    print(list2)
-    print(newa)
-    return
+    # print(list2)
+    # print(newa)
+    # print(results)
+    # print(len(results))
+    if len(results) == 0:
+        print("ret none")
+        return None
+    ret = []
+    for x in results:
+        for y in x:
+            print(y)
+            ret.append(int(y**(1/2)))
+        # print(x)
+    print("rr", ret)
+    ret = sorted(ret)
+    print("rr", ret)
+    return ret
 
 
 # below - not in the answer
 def main():
-    decompose(50)
+    decompose(5)
+    decompose(8)
     # dec(44)
     # assert decompose(44) == [2, 3, 5, 7, 43]
     # assert decompose(50) == [1, 3, 5, 8, 49]

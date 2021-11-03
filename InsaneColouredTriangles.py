@@ -58,6 +58,7 @@ def triangle(row):
 
     # print(len(row), "--- %s seconds ---" % (time.time() - start_time))
     # print(itc[sum_mod3])
+    # return ''.join('RGB'[sum_mod3])
     return itc[sum_mod3]
 
 def trianglea(row):
